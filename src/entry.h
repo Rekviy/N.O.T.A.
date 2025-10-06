@@ -6,4 +6,6 @@
 #include <cmath>
 #include <ctime>
 
+#include "platform/window.h"
+#include "platform/init.h"
 #endif

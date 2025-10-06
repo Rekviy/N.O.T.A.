@@ -4,7 +4,13 @@
 
 int main(int argc, char** argv)
 {
-
+	tempNameInit();
+	createWClass();
+	window* handle = createWindow(L"something",1080,720);
+	
+	//set callbacks
+	bool running = true;
+	while (running) {
+		pollEvents();
+	}
 }
-
-

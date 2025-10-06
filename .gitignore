@@ -128,7 +128,6 @@ project.properties
 *.iml
 
 # Ignore prebuilt libraries folder
-/external/*
 !/external/config.json
 /templates/lua-template-runtime/runtime
 /v*-deps-*.zip
@@ -161,7 +160,8 @@ tests/lua-tests/project/proj.tizen/res/
 
 # Ignore static libraries
 *.a
-
+# Ignore the CMake out folder
+out/
 # Ignore the CMake build folder, such as ios-build/linux-build
 *-build/
 # Ignore the CLion build folder, such as cmake-build-debug

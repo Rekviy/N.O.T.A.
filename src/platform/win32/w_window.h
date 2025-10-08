@@ -21,4 +21,5 @@ struct win32Window {
 int createWin32WClass(void);
 win32Window* createWin32Window(const wchar_t* title, uint32_t width, uint32_t height);
 int pollEventsWin32();
+
 #endif 

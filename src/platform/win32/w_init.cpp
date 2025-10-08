@@ -12,17 +12,5 @@ int win32_init(void)
 }
 
 
-int pollEventsWin32()
-{
-	MSG msg = {};
-	
-	while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE)) {
-		TranslateMessage(&msg);
-		DispatchMessageW(&msg);
-	}
-
-	return (int)msg.wParam;
-}
-
 
 

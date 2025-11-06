@@ -38,6 +38,22 @@ void pollEvents()
 	pollEventsWin32();
 }
 
+void swapBuffers(window* handle)
+{
+	swapBuffersWin32((win32Window*)handle->platformHandle);
+}
+
+void* getProcName(const char* name)
+{
+	return getProcNameWin32(name);
+}
+
+void setContext(window* handle)
+{
+	setPixelFormatWin32((win32Window*)handle->platformHandle);
+	setContextWin32((win32Window*)handle->platformHandle);
+}
+
 void destroyWindow(window* handle)
 {
 	if (handle != NULL) {

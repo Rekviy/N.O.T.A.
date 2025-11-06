@@ -113,7 +113,25 @@ int pollEventsWin32()
 	return (int)msg.wParam;
 }
 
+void* getProcNameWin32(const char* name)
+{
+	return wglGetProcAddress(name);
+}
+
+void swapBuffersWin32(win32Window* handle)
+{
+	HDC hdc = GetDC(handle->handle);
+	SwapBuffers(hdc);
+}
+
 void destroyWindowWin32(win32Window* window)
 {
+	HDC hdc = GetDC(window->handle);
+	HGLRC hRC = wglGetCurrentContext();
+	if (hRC != NULL) {
+		wglMakeCurrent(hdc, NULL);
+		wglDeleteContext(hRC);
+	}
+	ReleaseDC(window->handle, hdc);
 	DestroyWindow(window->handle);
 }

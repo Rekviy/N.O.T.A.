@@ -2,8 +2,10 @@ set(WINDOWS_PLATFORM_HEADER
 	src/platform/win32/w_init.h
 	src/platform/win32/w_window.h
 	src/platform/win32/w_core.h
+	src/platform/win32/w_context.h
 )
 set(WINDOWS_PLATFORM_SRC
 	src/platform/win32/w_init.c
 	src/platform/win32/w_window.c
+	src/platform/win32/w_context.c
 )

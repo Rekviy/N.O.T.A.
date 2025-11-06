@@ -44,6 +44,12 @@ window* createWindow(const wchar_t* title, uint32_t width, uint32_t height);
 
 void pollEvents();
 
+void swapBuffers(window* handle);
+
+void* getProcName(const char* name);
+
+void setContext(window* handle);
+
 void destroyWindow(window* handle);
 
 void windowCloseRequest(window* handle);

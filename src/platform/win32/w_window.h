@@ -23,6 +23,8 @@ struct win32Window {
 int createWin32WClass(void);
 void createWin32Window(window* handle);
 int pollEventsWin32();
+void swapBuffersWin32(win32Window* handle);
+void* getProcNameWin32(const char* name);
 
 void destroyWindowWin32(win32Window* window);
 #endif 

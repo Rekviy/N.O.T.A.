@@ -4,10 +4,10 @@
 
 #include "w_core.h"
 
-struct win32Internal {
-	
+typedef struct {
+
 	HINSTANCE handle;
-};
+} win32Internal;
 
 struct libraryPlatform;
 int win32_init(void);

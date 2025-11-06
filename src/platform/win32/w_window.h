@@ -10,16 +10,19 @@
 #endif
 
 #include "w_core.h"
+typedef struct window window;
+typedef struct win32Window win32Window;
 
 struct win32Window {
 	HWND handle;
-	uint8_t height;
-	uint8_t width;
+	uint32_t height;
+	uint32_t width;
 	wchar_t* title;
 };
 
 int createWin32WClass(void);
-win32Window* createWin32Window(const wchar_t* title, uint32_t width, uint32_t height);
+void createWin32Window(window* handle);
 int pollEventsWin32();
 
+void destroyWindowWin32(win32Window* window);
 #endif 

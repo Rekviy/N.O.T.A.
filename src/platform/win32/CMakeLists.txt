@@ -4,6 +4,6 @@ set(WINDOWS_PLATFORM_HEADER
 	src/platform/win32/w_core.h
 )
 set(WINDOWS_PLATFORM_SRC
-	src/platform/win32/w_init.cpp
-	src/platform/win32/w_window.cpp
+	src/platform/win32/w_init.c
+	src/platform/win32/w_window.c
 )

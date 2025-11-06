@@ -4,9 +4,9 @@
 
 //global
 
-struct tempNameInternal {
+typedef struct {
 	void* platformInternal;
-};
+} tempNameInternal;
 
 extern tempNameInternal _tempName;
 

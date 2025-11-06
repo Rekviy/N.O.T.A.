@@ -21,7 +21,18 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 
-#include <xutility>
+#define __STDC_WANT_LIB_EXT1__ 1
+#include <stdio.h>
+
+#include <limits.h>
+#include <stdint.h>
+
+#include <math.h>
+#include <stdlib.h>
+
+#include <string.h>
+#include <wchar.h>
+
 #include <windows.h>
 
 #endif

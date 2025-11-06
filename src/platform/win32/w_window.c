@@ -1,12 +1,14 @@
 #include "w_window.h"
 #include "platform/internal.h"
 #include "w_init.h"
+#include "platform/window.h"
 
+void OnSize(HWND hwnd, UINT flag, int width, int height);
 LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int createWin32WClass(void)
 {
-	WNDCLASSEX wc = { wc.cbSize = sizeof(WNDCLASSEXW) };
+	WNDCLASSEX wc = { .cbSize = sizeof(WNDCLASSEXW) };
 	wc.style = CS_OWNDC;
 	wc.lpfnWndProc = WinProc;
 	wc.cbClsExtra = 0;
@@ -23,15 +25,15 @@ int createWin32WClass(void)
 	return 0;
 }
 
-win32Window* createWin32Window(const wchar_t* title, uint32_t width, uint32_t height)
+void createWin32Window(window* handle)
 {
-	win32Window* windowHandle = nullptr;
+	win32Window* windowHandle = NULL;
 	// Create the window.
 	HWND nativeHandle = CreateWindowExW(0L,
 		L"tempName_01",
-		title,
+		handle->title,
 		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, width, height,
+		CW_USEDEFAULT, CW_USEDEFAULT, handle->width, handle->height,
 		NULL,
 		NULL,
 		((win32Internal*)_tempName.platformInternal)->handle,
@@ -39,7 +41,8 @@ win32Window* createWin32Window(const wchar_t* title, uint32_t width, uint32_t he
 	);
 
 	if (nativeHandle != NULL) {
-		windowHandle = new win32Window{ nativeHandle };
+		windowHandle = malloc(sizeof(win32Window));
+		windowHandle->handle = nativeHandle;
 
 		int showCommand = SW_SHOWNA;
 		STARTUPINFOW si = { sizeof(si) };
@@ -53,29 +56,34 @@ win32Window* createWin32Window(const wchar_t* title, uint32_t width, uint32_t he
 		BringWindowToTop(nativeHandle);
 		SetForegroundWindow(nativeHandle);
 		SetFocus(nativeHandle);
+		SetPropW(nativeHandle, L"TEST", handle);
 	}
-
-	return windowHandle;
+	handle->platformHandle = windowHandle;
 }
 
 LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	window* handle = (window*)GetPropW(hwnd, L"TEST");
 	PAINTSTRUCT ps;
 	HDC hdc;
 	switch (uMsg) {
+		/*case WM_SIZE:
+				width = LOWORD(lParam);
+				height = HIWORD(lParam);
+				OnSize(hwnd, (UINT)wParam, width, height);
+				break;*/
+
 		case WM_PAINT:
 
 			hdc = BeginPaint(hwnd, &ps);
 
-			FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+			//FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
 
 			EndPaint(hwnd, &ps);
 			break;
 
 		case WM_CLOSE:
-			if (MessageBoxW(hwnd, L"Close application?", L"winapitest", MB_OKCANCEL) ==
-				IDOK)
-				DestroyWindow(hwnd);
+			windowCloseRequest(handle);
 			break;
 
 		case WM_DESTROY:
@@ -88,9 +96,14 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+void OnSize(HWND hwnd, UINT flag, int width, int height)
+{
+	// handle resizing
+}
+
 int pollEventsWin32()
 {
-	MSG msg = {};
+	MSG msg;
 
 	while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE)) {
 		TranslateMessage(&msg);
@@ -100,4 +113,7 @@ int pollEventsWin32()
 	return (int)msg.wParam;
 }
 
-
+void destroyWindowWin32(win32Window* window)
+{
+	DestroyWindow(window->handle);
+}

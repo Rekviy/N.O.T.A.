@@ -2,7 +2,7 @@
 #include "init.h"
 #include "win32/w_init.h"
 
-tempNameInternal _tempName = { };
+tempNameInternal _tempName;
 
 int tempNameInit()
 {
